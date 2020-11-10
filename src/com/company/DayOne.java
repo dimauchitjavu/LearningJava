@@ -49,7 +49,7 @@ public class DayOne {
                 int outNum = Integer.parseInt(number);
                 for(int i = 0; i < 10; i++)
                 {
-                    System.out.printf("%d x %d = %d\n1",outNum,i,outNum*i);
+                    System.out.printf("%d x %d = %d\n",outNum,i,outNum*i);
                 }
                 break;
             default:
