@@ -12,6 +12,9 @@ public class Main {
             case 1:
                 DayOne.taskOne();
                 break;
+            case 2:
+                DayTwo.taskTwo();
+                break;
             default:
                 System.out.println("Wrong day!");
                 break;
