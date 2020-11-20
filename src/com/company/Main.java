@@ -24,6 +24,9 @@ public class Main {
             case 5:
                 DayFive.taskFive();
                 break;
+            case 6:
+                DaySix.taskSix();
+                break;
             default:
                 System.out.println("Wrong day!");
                 break;
