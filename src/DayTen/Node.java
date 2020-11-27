@@ -12,11 +12,12 @@ public class Node {
     }
 
     public static void printTree(Node RootNode){
-        if (RootNode != null) {
-            RootNode.printTree(RootNode.LeftNode);
-            System.out.println(RootNode.valueOfNode);
-            RootNode.printTree(RootNode.RightNode);
+        if (RootNode == null) {
+            return;
         }
+        RootNode.printTree(RootNode.LeftNode);
+        System.out.println(RootNode.valueOfNode);
+        RootNode.printTree(RootNode.RightNode);
     }
     public void createAutoNode(int valueOfNode){
         addNode(this, valueOfNode);
