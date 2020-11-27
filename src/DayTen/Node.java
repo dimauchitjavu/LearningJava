@@ -1,37 +1,33 @@
 package DayTen;
 
 public class Node {
+    private Node LeftNode;
+    private Node RightNode;
+    private double valueOfNode;
+
     public Node(double valueOfNode) {
         LeftNode = null;
         RightNode = null;
         this.valueOfNode = valueOfNode;
     }
 
-    Node LeftNode;
-    Node RightNode;
-
-    public double getValueOfNode() {
-        return valueOfNode;
-    }
-
-    double valueOfNode;
-    public void printTree(Node TheNode){
-        if (TheNode != null) {
-            TheNode.printTree(TheNode.LeftNode);
-            System.out.println(TheNode.valueOfNode);
-            TheNode.printTree(TheNode.RightNode);
+    public static void printTree(Node RootNode){
+        if (RootNode != null) {
+            RootNode.printTree(RootNode.LeftNode);
+            System.out.println(RootNode.valueOfNode);
+            RootNode.printTree(RootNode.RightNode);
         }
     }
     public void createAutoNode(int valueOfNode){
         addNode(this, valueOfNode);
     }
-    public Node addNode(Node TheNode, double value){
+    private Node addNode(Node TheNode, double value){
         if(TheNode == null){
             return new Node(value);
         }
-        if(TheNode.getValueOfNode() > value){
+        if(TheNode.valueOfNode > value){
             TheNode.LeftNode = addNode(TheNode.LeftNode, value);
-        }else if(TheNode.getValueOfNode() < value){
+        }else if(TheNode.valueOfNode < value){
             TheNode.RightNode = addNode(TheNode.RightNode, value);
         }else {
             return TheNode;
