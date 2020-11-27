@@ -30,8 +30,6 @@ public class Node {
             TheNode.LeftNode = addNode(TheNode.LeftNode, value);
         }else if(TheNode.valueOfNode < value){
             TheNode.RightNode = addNode(TheNode.RightNode, value);
-        }else {
-            return TheNode;
         }
         return TheNode;
     }

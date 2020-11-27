@@ -16,6 +16,7 @@ public class Main {
         RootNode.createAutoNode(18);
         RootNode.createAutoNode(5);
         RootNode.createAutoNode(8);
+        RootNode.createAutoNode(8);
         Node.printTree(RootNode);
     }
 }
