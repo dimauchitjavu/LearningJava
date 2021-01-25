@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 /*Класс. отвечающий за управление игрой и её состоянием*/
 public class GameControls {
-    private Board boardOne;
-    private Board boardTwo;
+    private final Board boardOne;
+    private final Board boardTwo;
     private int player;
 
     public GameControls() {
@@ -27,18 +27,18 @@ public class GameControls {
     public void DrawState(){
         if(player == 1){
             System.out.println("PLAYER ONE LEST GO");
-            DrawBoard(boardOne, false);
-            DrawBoard(boardTwo, true);
+            drawBoard(boardOne, false);
+            drawBoard(boardTwo, true);
         }
         if(player == 2){
             System.out.println("PLAYER TWO LEST GO");
-            DrawBoard(boardOne, true);
-            DrawBoard(boardTwo, false);
+            drawBoard(boardOne, true);
+            drawBoard(boardTwo, false);
         }
     }
     //Отрисовка доски. Доска противника показывается только там, где ударено
-    public void DrawBoard(Board board, boolean hideMode){
-        if(hideMode == true){
+    public void drawBoard(Board board, boolean hideMode){
+        if(hideMode){
             System.out.println("OPPONENT BOARD");
         }
         else {
@@ -46,7 +46,7 @@ public class GameControls {
         }
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                if (hideMode == false){
+                if (!hideMode){
                     if(board.boardState[i][j][0] == 1 && board.boardState[i][j][1] == 0) {
                         System.out.print("⬛");
                     }
@@ -57,7 +57,7 @@ public class GameControls {
                         System.out.print("⬜");
                     }
                 }
-                if (hideMode == true){
+                if (hideMode){
                     if(board.boardState[i][j][0] == 1 && board.boardState[i][j][1] == 1){
                         System.out.print("X");
                     }
@@ -75,13 +75,13 @@ public class GameControls {
     //Добавление нового корабля на поле
     public void pushShip(int[][] coordinates){
         if(this.player == 1){
-            for (int i = 0; i < coordinates.length; i++) {
-                boardOne.boardState[coordinates[i][0]][coordinates[i][1]][0] = 1;
+            for (int[] coordinate : coordinates) {
+                boardOne.boardState[coordinate[0]][coordinate[1]][0] = 1;
             }
         }
         if(this.player == 2){
-            for (int i = 0; i < coordinates.length; i++) {
-                boardTwo.boardState[coordinates[i][0]][coordinates[i][1]][0] = 1;
+            for (int[] coordinate : coordinates) {
+                boardTwo.boardState[coordinate[0]][coordinate[1]][0] = 1;
             }
         }
     }
@@ -100,11 +100,7 @@ public class GameControls {
     }
     //Проверка на наличие победителя
     public boolean haveWinner(){
-        if(boardOne.isDefeatBoard() || boardTwo.isDefeatBoard()){
-            return true;
-        }else {
-            return false;
-        }
+        return boardOne.isDefeatBoard() || boardTwo.isDefeatBoard();
     }
     //Получение координат с клавиатуры
     public static int[][] coordinatesGetter(int squares, GameControls controls){
@@ -119,27 +115,27 @@ public class GameControls {
             System.out.print("\n");
             Scanner in = new Scanner(System.in);
             String msg = in.nextLine();
-            String[] coordinates = msg.split("\\;", -1);
+            String[] coordinates = msg.split(";", -1);
             if (coordinates.length != squares){
                 System.out.println("Wrong coordinates!");
                 continue;
             }
             boolean outSide = false;
             for (int i = 0; i < squares; i++) {
-                if(coordinates[i].split("\\,",-1).length !=2){
+                if(coordinates[i].split(",",-1).length !=2){
                     System.out.println("Wrong coordinates!");
                     continue;
                 }
                 else {
-                    if((Integer.parseInt(coordinates[i].split("\\,",-1)[0]) >9) ||
-                            (Integer.parseInt(coordinates[i].split("\\,",-1)[0]) < 0 )||
-                            (Integer.parseInt(coordinates[i].split("\\,",-1)[1]) >9)||
-                            (Integer.parseInt(coordinates[i].split("\\,",-1)[0]) < 0))
+                    if((Integer.parseInt(coordinates[i].split(",",-1)[0]) >9) ||
+                            (Integer.parseInt(coordinates[i].split(",",-1)[0]) < 0 )||
+                            (Integer.parseInt(coordinates[i].split(",",-1)[1]) >9)||
+                            (Integer.parseInt(coordinates[i].split(",",-1)[0]) < 0))
                     {
                         outSide = true;
                     }
-                    xyCoordinates[i][0] = Integer.parseInt(coordinates[i].split("\\,",-1)[0]);
-                    xyCoordinates[i][1] = Integer.parseInt(coordinates[i].split("\\,",-1)[1]);
+                    xyCoordinates[i][0] = Integer.parseInt(coordinates[i].split(",",-1)[0]);
+                    xyCoordinates[i][1] = Integer.parseInt(coordinates[i].split(",",-1)[1]);
                 }
             }
             if(outSide){
@@ -149,14 +145,20 @@ public class GameControls {
             boolean yAllign = true;
             boolean xAllign = true;
             int first = xyCoordinates[0][0];
-            for(int i = 1; i < squares && xAllign; i++)
+            for(int i = 1; i < squares; i++)
             {
-                if (xyCoordinates[i][0] != first) xAllign = false;
+                if (xyCoordinates[i][0] != first) {
+                    xAllign = false;
+                    break;
+                }
             }
             first = xyCoordinates[0][1];
-            for(int i = 1; i < squares && yAllign; i++)
+            for(int i = 1; i < squares; i++)
             {
-                if (xyCoordinates[i][1] != first) yAllign = false;
+                if (xyCoordinates[i][1] != first) {
+                    yAllign = false;
+                    break;
+                }
             }
             if(xAllign){
                 if (squares > 1) {
@@ -237,7 +239,7 @@ public class GameControls {
             System.out.println("Enter where you want to hit!");
             Scanner in = new Scanner(System.in);
             String msg = in.nextLine();
-            String[] coordinates = msg.split("\\,", -1);
+            String[] coordinates = msg.split(",", -1);
             if (coordinates.length != 2) {
                 System.out.println("Wrong coordinates!");
                 continue;
@@ -255,9 +257,8 @@ public class GameControls {
             }
             correctInput = true;
         }
-
+        boardHit.boardState[xyCoordinates[0]][xyCoordinates[1]][1] = 1;
         if(boardHit.boardState[xyCoordinates[0]][xyCoordinates[1]][0] == 1){
-            boardHit.boardState[xyCoordinates[0]][xyCoordinates[1]][1] = 1;
             System.out.println("Thats a hit!");
             return true;
         }else {
